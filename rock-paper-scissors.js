@@ -1,3 +1,8 @@
+/** Refactor notes:
+ * 1, make object key values constants and call the variable using [ROCK]
+ * 2, Instead of -1, 0 , 1, set constants WIN = 1, etc, use the constants
+ */
+
 const CHOICES = ["rock", "paper", "scissors"];
 const ROUNDS = 5
 
@@ -28,12 +33,10 @@ function properNoun(noun) {
     const firstCharacterCap = noun.charAt(0).toUpperCase();
     const remainingCharacters = noun.slice(1).toLowerCase();
     return `${firstCharacterCap}${remainingCharacters}`;
-
 }
 
 function scoreRockPaperScissors(playerSelection, computerSelection) {
     return WINNING_RULES[playerSelection][computerSelection];
-    
 }
 
 function game() {
@@ -66,7 +69,7 @@ function game() {
 
     if (playerScore > computerScore) {
         console.log("Player wins!")
-    } else if (playerScore == computerScore) {
+    } else if (playerScore === computerScore) {
         console.log("Tie!")
     } else {
         console.log("Computer wins!")
