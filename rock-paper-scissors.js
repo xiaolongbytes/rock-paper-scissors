@@ -1,7 +1,7 @@
 const CHOICES = ["rock", "paper", "scissors"];
 const ROUNDS = 5
 
-// 0 means that the first choice loses, 1 means that the first choice wins
+// 0 means that the first choice loses, 1 means that the first choice wins, -1 means tie
 const WINNING_RULES = {
     "rock": {
         "rock": -1,
@@ -35,11 +35,6 @@ function scoreRockPaperScissors(playerSelection, computerSelection) {
     return WINNING_RULES[playerSelection][computerSelection];
     
 }
-
-// const playerSelection = "rock";
-// const computerSelection = getComputerChoice(CHOICES);
-// console.log(computerSelection)
-// console.log(playRockPaperScissors(playerSelection, computerSelection));
 
 function game() {
     let playerScore = 0;
