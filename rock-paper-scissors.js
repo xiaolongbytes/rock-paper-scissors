@@ -1,27 +1,29 @@
-/** Refactor notes:
- * 1, make object key values constants and call the variable using [ROCK]
- * 2, Instead of -1, 0 , 1, set constants WIN = 1, etc, use the constants
- */
+const WIN = 1;
+const TIE = 0;
+const LOSS = -1;
 
-const CHOICES = ["rock", "paper", "scissors"];
-const ROUNDS = 5
+const ROCK = "rock";
+const PAPER = "paper";
+const SCISSORS = "scissors";
 
-// 0 means that the first choice loses, 1 means that the first choice wins, -1 means tie
+const CHOICES = [ROCK, PAPER, SCISSORS];
+const ROUNDS = 5;
+
 const WINNING_RULES = {
-    "rock": {
-        "rock": -1,
-        "paper": 0,
-        "scissors": 1,
+    [ROCK]: {
+        [ROCK]: TIE,
+        [PAPER]: LOSS,
+        [SCISSORS]: WIN,
     },
-    "paper": {
-        "rock": 1,
-        "paper": -1,
-        "scissors": 0,
+    [PAPER]: {
+        [ROCK]: WIN,
+        [PAPER]: TIE,
+        [SCISSORS]: LOSS,
     },
-    "scissors": {
-        "rock": 0,
-        "paper": 1,
-        "scissors": -1,
+    [SCISSORS]: {
+        [ROCK]: LOSS,
+        [PAPER]: WIN,
+        [SCISSORS]: TIE,
     },
 }
 
@@ -29,7 +31,7 @@ function getComputerChoice(choices) {
     return choices[Math.floor(Math.random()*choices.length)];
 }
 
-function properNoun(noun) {
+function toProperNoun(noun) {
     const firstCharacterCap = noun.charAt(0).toUpperCase();
     const remainingCharacters = noun.slice(1).toLowerCase();
     return `${firstCharacterCap}${remainingCharacters}`;
@@ -51,14 +53,14 @@ function game() {
         
         console.log(`Round ${i}:`);
         const result = (scoreRockPaperScissors(playerChoiceLower,computerChoiceLower));
-        if (result === 0) {
-            console.log(`You Lose! ${properNoun(computerChoiceLower)} beats ${properNoun(playerChoiceLower)}.`);
+        if (result === LOSS) {
+            console.log(`You Lose! ${toProperNoun(computerChoiceLower)} beats ${toProperNoun(playerChoiceLower)}.`);
             computerScore += 1;
-        } else if (result === 1) {
-            console.log(`You Win! ${properNoun(playerChoiceLower)} beats ${properNoun(computerChoiceLower)}.`);
+        } else if (result === WIN) {
+            console.log(`You Win! ${toProperNoun(playerChoiceLower)} beats ${toProperNoun(computerChoiceLower)}.`);
             playerScore += 1;
-        } else if (result === -1) {
-            console.log(`It's a Tie! You both chose ${properNoun(playerChoiceLower)}.`);
+        } else if (result === TIE) {
+            console.log(`It's a Tie! You both chose ${toProperNoun(playerChoiceLower)}.`);
             playerScore += 1;
             computerScore += 1;
         }
