@@ -1,7 +1,7 @@
 let playerScore = 0;
 let computerScore = 0;
 
-const WINNING_SCORE = 3
+const WINNING_SCORE = 5
 
 const WIN = 1;
 const TIE = 0;
