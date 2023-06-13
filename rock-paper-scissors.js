@@ -1,3 +1,8 @@
+let playerScore = 0;
+let computerScore = 0;
+
+const WINNING_SCORE = 3
+
 const WIN = 1;
 const TIE = 0;
 const LOSS = -1;
@@ -7,7 +12,6 @@ const PAPER = "paper";
 const SCISSORS = "scissors";
 
 const CHOICES = [ROCK, PAPER, SCISSORS];
-const ROUNDS = 5;
 
 const WINNING_RULES = {
     [ROCK]: {
@@ -37,45 +41,45 @@ function toProperNoun(noun) {
     return `${firstCharacterCap}${remainingCharacters}`;
 }
 
-function scoreRockPaperScissors(playerSelection, computerSelection) {
-    return WINNING_RULES[playerSelection][computerSelection];
-}
+function playRound(playerSelection, computerSelection) { 
+    if (Math.max(playerScore, computerScore) >= WINNING_SCORE) {
+        return
+    } 
+    const playerChoiceLower = playerSelection.toLowerCase();
+    const computerChoiceLower = computerSelection.toLowerCase();
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let i = 1; i <= ROUNDS; i++) {
-        const playerSelection = prompt("Rock, paper, or scissors?" );
-        const computerSelection = getComputerChoice(CHOICES);
-
-        const playerChoiceLower = playerSelection.toLowerCase();
-        const computerChoiceLower = computerSelection.toLowerCase();
-        
-        console.log(`Round ${i}:`);
-        const result = (scoreRockPaperScissors(playerChoiceLower,computerChoiceLower));
-        if (result === LOSS) {
-            console.log(`You Lose! ${toProperNoun(computerChoiceLower)} beats ${toProperNoun(playerChoiceLower)}.`);
-            computerScore += 1;
-        } else if (result === WIN) {
-            console.log(`You Win! ${toProperNoun(playerChoiceLower)} beats ${toProperNoun(computerChoiceLower)}.`);
-            playerScore += 1;
-        } else if (result === TIE) {
-            console.log(`It's a Tie! You both chose ${toProperNoun(playerChoiceLower)}.`);
-            playerScore += 1;
-            computerScore += 1;
-        }
-        console.log('----------------');
-    }
-    console.log(`Player's score: ${playerScore}`);
-    console.log(`Computer's score: ${computerScore}`);
-
-    if (playerScore > computerScore) {
-        console.log("Player wins!")
-    } else if (playerScore === computerScore) {
-        console.log("Tie!")
-    } else {
-        console.log("Computer wins!")
+    if (WINNING_RULES[playerSelection][computerSelection] === LOSS) {
+        computerScore += 1;
+        return `You Lose! ${toProperNoun(computerChoiceLower)} beats ${toProperNoun(playerChoiceLower)}.`;
+    } else if (WINNING_RULES[playerSelection][computerSelection] === WIN) {
+        playerScore += 1;
+        return `You Win! ${toProperNoun(playerChoiceLower)} beats ${toProperNoun(computerChoiceLower)}.`;
+    } else if (WINNING_RULES[playerSelection][computerSelection] === TIE) {
+        playerScore += 1;
+        computerScore += 1;
+        return `It's a Tie! You both chose ${toProperNoun(playerChoiceLower)}.`
     }
 }
 
-game()
+function updateResults(playerResults, computerResults) {
+    document.getElementById("player-score").textContent = `Player Score: ${playerResults}`
+    document.getElementById("computer-score").textContent = `Computer Score: ${computerResults}`
+
+    if (playerResults === WINNING_SCORE && computerResults === WINNING_SCORE) {
+        document.getElementById("winner").textContent = "TIE!"
+    } else if (playerResults === WINNING_SCORE) {
+        document.getElementById("winner").textContent = "Player Wins!"
+    } else if (computerResults === WINNING_SCORE) {
+        document.getElementById("winner").textContent = "Computer Wins!"
+    }
+}
+
+updateResults(0,0)
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        const computerChoice = getComputerChoice(CHOICES)
+        console.log(playRound(e.target.getAttribute("data-value"), computerChoice))
+        updateResults(playerScore, computerScore)
+    });
+})
